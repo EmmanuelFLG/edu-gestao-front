@@ -13,10 +13,10 @@ export const useAllocations = () => {
     setLoading(true);
     try {
       const [allocsRes, profsRes, subsRes, classesRes] = await Promise.all([
-        apiClient('/allocations'),   // retorna AlocacaoDTO com professor, disciplina e turma
-        apiClient('/professores'),   // lista de professores
-        apiClient('/disciplinas'),   // lista de disciplinas
-        apiClient('/turmas'),        // lista de turmas
+        apiClient('/alocacoes'),
+        apiClient('/professores'),   
+        apiClient('/disciplinas'),  
+        apiClient('/turmas'),       
       ]);
 
       setAllocations(allocsRes || []);
@@ -30,7 +30,6 @@ export const useAllocations = () => {
     }
   };
 
-  // Cria uma nova alocação enviando apenas os ids
   const createAllocation = async (data) => {
     setLoading(true);
     try {
@@ -40,12 +39,12 @@ export const useAllocations = () => {
         turmaId: data.turmaId
       };
 
-      const res = await apiClient('/allocations', {
+      const res = await apiClient('/alocacoes', {
         method: 'POST',
         body: JSON.stringify(payload)
       });
 
-      setAllocations(prev => [...prev, res]); // adiciona à lista atual
+      setAllocations(prev => [...prev, res]);
     } catch (err) {
       console.error('Erro ao criar alocação:', err);
     } finally {
@@ -53,7 +52,6 @@ export const useAllocations = () => {
     }
   };
 
-  // Atualiza uma alocação existente enviando apenas os ids
   const updateAllocation = async (id, data) => {
     setLoading(true);
     try {
@@ -63,7 +61,7 @@ export const useAllocations = () => {
         turmaId: data.turmaId
       };
 
-      const res = await apiClient(`/allocations/${id}`, {
+      const res = await apiClient(`/alocacoes/${id}`, {
         method: 'PUT',
         body: JSON.stringify(payload)
       });
@@ -80,7 +78,7 @@ export const useAllocations = () => {
   const deleteAllocation = async (id) => {
     setLoading(true);
     try {
-      await apiClient(`/allocations/${id}`, { method: 'DELETE' });
+      await apiClient(`/alocacoes/${id}`, { method: 'DELETE' });
       setAllocations(prev => prev.filter(a => a.id !== id));
     } catch (err) {
       console.error('Erro ao deletar alocação:', err);
@@ -93,15 +91,5 @@ export const useAllocations = () => {
     fetchAll();
   }, []);
 
-  return {
-    allocations,
-    professors,
-    subjects,
-    classes,
-    loading,
-    createAllocation,
-    updateAllocation,
-    deleteAllocation,
-    fetchAll
-  };
+  return { allocations, professors, subjects, classes, loading, createAllocation, updateAllocation, deleteAllocation,fetchAll};
 };

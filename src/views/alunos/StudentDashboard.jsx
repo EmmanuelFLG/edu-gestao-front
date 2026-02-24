@@ -5,13 +5,10 @@ import { Clock, AlertTriangle, Megaphone, Info } from 'lucide-react';
 
 export const StudentDashboard = ({ user, stats }) => (
   <div className="space-y-6">
-    <Header
-      title="Painel do Aluno"
-      subtitle={`Olá, ${user?.nome || 'Aluno'}. Acompanhe seu desempenho.`}
-    />
+    <Header title="Painel do Aluno" subtitle={`Olá, ${user?.nome || 'Aluno'}. Acompanhe seu desempenho.`}/>
 
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {/* CARD DINÂMICO: MATÉRIAS EM ALERTA */}
+      {/* Card alerta */}
       <StatCard 
         title="Matérias em Alerta" 
         value={stats?.materiasAlerta} 
@@ -20,7 +17,7 @@ export const StudentDashboard = ({ user, stats }) => (
         trend={stats?.materiasAlerta > 0 ? "Média abaixo de 7.0" : "Desempenho excelente"} 
       />
 
-      {/* CARD DINÂMICO: FALTAS */}
+      {/* Card faltas */}
       <StatCard
         title="Faltas Restantes"
         value={stats?.faltasRestantes}
@@ -31,7 +28,7 @@ export const StudentDashboard = ({ user, stats }) => (
     </div>
 
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {/* TABELA DE AULAS DINÂMICA */}
+      {/* tabela aula hj */}
       <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
         <h3 className="font-bold text-gray-800 flex items-center gap-2 mb-4">
           <Clock className="w-5 h-5 text-indigo-600" /> Horário das Aulas (Hoje)
@@ -56,25 +53,6 @@ export const StudentDashboard = ({ user, stats }) => (
             ))
           ) : (
             <p className="text-sm text-center text-gray-500 py-6">Nenhuma aula para hoje.</p>
-          )}
-        </div>
-      </div>
-
-      {/* AVISOS DINÂMICOS */}
-      <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-        <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2 text-lg">
-          <Megaphone className="w-5 h-5 text-indigo-600" /> Avisos
-        </h3>
-        <div className="space-y-4">
-          {stats?.avisos?.length > 0 ? (
-            stats.avisos.map((aviso, i) => (
-              <div key={i} className={`p-3 rounded-lg border-l-4 ${aviso.tipo === 'urgente' ? 'bg-red-50 border-red-500' : 'bg-blue-50 border-blue-500'}`}>
-                <p className={`text-xs font-bold uppercase ${aviso.tipo === 'urgente' ? 'text-red-700' : 'text-blue-700'}`}>{aviso.titulo}</p>
-                <p className={`text-sm font-medium ${aviso.tipo === 'urgente' ? 'text-red-800' : 'text-blue-800'}`}>{aviso.mensagem}</p>
-              </div>
-            ))
-          ) : (
-            <p className="text-sm text-gray-500">Sem novos avisos.</p>
           )}
         </div>
       </div>

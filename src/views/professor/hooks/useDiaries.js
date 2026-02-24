@@ -12,7 +12,6 @@ export const useDiaries = () => {
 
   // Busca turmas baseadas no ID do professor
   useEffect(() => {
-
     const fetchTurmas = async () => {
       if (!user?.id) return;
       try {

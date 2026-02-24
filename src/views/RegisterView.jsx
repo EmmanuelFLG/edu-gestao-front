@@ -29,7 +29,6 @@ export default function RegisterView() {
         <div className="p-8">
           <form onSubmit={handleRegister} className="space-y-6">
 
-            {/* Nome */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Nome Completo
@@ -47,7 +46,6 @@ export default function RegisterView() {
               </div>
             </div>
 
-            {/* Email */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Email Acadêmico
@@ -65,7 +63,6 @@ export default function RegisterView() {
               </div>
             </div>
 
-            {/* Senha */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Senha
@@ -83,14 +80,12 @@ export default function RegisterView() {
               </div>
             </div>
 
-            {/* Erro */}
             {error && (
               <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-200">
                 {error}
               </div>
             )}
 
-            {/* Botão */}
             <button
               type="submit"
               disabled={loading}

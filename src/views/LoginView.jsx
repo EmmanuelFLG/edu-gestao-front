@@ -15,7 +15,6 @@ export const LoginView = () => {
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 to-white flex items-center justify-center p-4">
       <div className="bg-white w-full max-w-md rounded-2xl shadow-xl overflow-hidden border border-gray-100">
         
-        {/* Cabeçalho */}
         <div className="p-8 bg-indigo-600 text-center">
           <div className="inline-flex p-3 bg-white/20 rounded-xl mb-4 backdrop-blur-sm">
             <School className="w-10 h-10 text-white" />
@@ -26,8 +25,6 @@ export const LoginView = () => {
 
         <div className="p-8">
           <form onSubmit={handleLogin} className="space-y-6">
-            
-            {/* Email */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Email Acadêmico
@@ -47,7 +44,6 @@ export const LoginView = () => {
               </div>
             </div>
 
-            {/* Senha */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Senha
@@ -67,14 +63,12 @@ export const LoginView = () => {
               </div>
             </div>
 
-            {/* Erro */}
             {error && (
               <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-100">
                 {error}
               </div>
             )}
 
-            {/* Botão */}
             <button
               type="submit"
               disabled={loading}
@@ -88,7 +82,6 @@ export const LoginView = () => {
               {!loading && <ArrowRight className="w-4 h-4" />}
             </button>
 
-            {/* 🔥 NOVA SEÇÃO CADASTRO */}
             <div className="text-center pt-4 border-t border-gray-100">
               <p className="text-sm text-gray-600">
                 Ainda não possui conta?

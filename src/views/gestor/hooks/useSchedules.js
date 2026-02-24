@@ -5,6 +5,10 @@ export const useSchedules = () => {
   const [schedules, setSchedules] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // Centralizando as chaves e displays aqui como no seu exemplo
+  const diasChave = ['SEGUNDA', 'TERCA', 'QUARTA', 'QUINTA', 'SEXTA', 'SABADO', 'DOMINGO'];
+  const diasDisplay = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
+
   const fetchAll = async () => {
     setLoading(true);
     try {
@@ -25,8 +29,10 @@ export const useSchedules = () => {
         body: JSON.stringify(data)
       });
       setSchedules(prev => [...prev, res]);
+      return res;
     } catch (err) {
       console.error('Erro ao criar horário:', err);
+      throw err;
     } finally {
       setLoading(false);
     }
@@ -40,8 +46,10 @@ export const useSchedules = () => {
         body: JSON.stringify(data)
       });
       setSchedules(prev => prev.map(s => s.id === id ? res : s));
+      return res;
     } catch (err) {
       console.error('Erro ao atualizar horário:', err);
+      throw err;
     } finally {
       setLoading(false);
     }
@@ -54,6 +62,7 @@ export const useSchedules = () => {
       setSchedules(prev => prev.filter(s => s.id !== id));
     } catch (err) {
       console.error('Erro ao deletar horário:', err);
+      throw err;
     } finally {
       setLoading(false);
     }
@@ -63,12 +72,5 @@ export const useSchedules = () => {
     fetchAll();
   }, []);
 
-  return {
-    schedules,
-    loading,
-    createSchedule,
-    updateSchedule,
-    deleteSchedule,
-    fetchAll
-  };
+  return {schedules, loading, createSchedule, updateSchedule, deleteSchedule, fetchAll, diasChave, diasDisplay};
 };

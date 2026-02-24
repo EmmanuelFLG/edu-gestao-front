@@ -5,7 +5,17 @@ import { useSchedules } from './hooks/useSchedules';
 import { useAllocations } from './hooks/useAllocations';
 
 export const SchedulesView = () => {
-  const { schedules, loading, createSchedule, updateSchedule, deleteSchedule, setSchedules } = useSchedules();
+  // Agora pegamos os dias diretamente do Hook
+  const { 
+    schedules, 
+    loading, 
+    createSchedule, 
+    updateSchedule, 
+    deleteSchedule, 
+    diasChave,
+    diasDisplay 
+  } = useSchedules();
+  
   const { allocations } = useAllocations();
 
   const [newSchedule, setNewSchedule] = useState({
@@ -17,8 +27,6 @@ export const SchedulesView = () => {
   });
 
   const [editingId, setEditingId] = useState(null);
-
-  const diasSemana = ['SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO', 'DOMINGO'];
 
   const handleSave = async () => {
     const { alocacaoId, diaSemana, horaInicio, horaFim, sala } = newSchedule;
@@ -33,11 +41,10 @@ export const SchedulesView = () => {
     try {
       if (editingId) {
         const updated = await updateSchedule(editingId, payload);
-        setSchedules(prev => prev.map(s => s.id === editingId ? updated : s));
+        // O setSchedules agora funciona porque vem do useSchedules
         setEditingId(null);
       } else {
-        const created = await createSchedule(payload);
-        setSchedules(prev => [...prev, created]);
+        await createSchedule(payload);
       }
 
       setNewSchedule({ alocacaoId: '', diaSemana: '', horaInicio: '', horaFim: '', sala: '' });
@@ -60,7 +67,6 @@ export const SchedulesView = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Deseja realmente excluir este horário?')) {
       await deleteSchedule(id);
-      setSchedules(prev => prev.filter(s => s.id !== id));
     }
   };
 
@@ -68,7 +74,6 @@ export const SchedulesView = () => {
     <div className="space-y-6">
       <Header title="Horários" subtitle="Gerencie os horários de aulas das turmas." />
 
-      {/* Formulário de criação/edição */}
       <div className="grid grid-cols-1 md:grid-cols-6 gap-2">
         <select
           value={newSchedule.alocacaoId}
@@ -83,13 +88,18 @@ export const SchedulesView = () => {
           ))}
         </select>
 
+        {/* Usando os dados que vieram do Hook */}
         <select
           value={newSchedule.diaSemana}
           onChange={(e) => setNewSchedule({ ...newSchedule, diaSemana: e.target.value })}
           className="px-3 py-2 border rounded-lg"
         >
           <option value="">Dia da Semana</option>
-          {diasSemana.map(d => <option key={d} value={d}>{d}</option>)}
+          {diasChave.map((dia, index) => (
+            <option key={dia} value={dia}>
+              {diasDisplay[index]}
+            </option>
+          ))}
         </select>
 
         <input
@@ -123,7 +133,6 @@ export const SchedulesView = () => {
         </button>
       </div>
 
-      {/* Tabela de horários */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
         <table className="w-full text-left">
           <thead className="bg-gray-50 border-b border-gray-100">
@@ -139,7 +148,7 @@ export const SchedulesView = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-50">
-            {loading ? (
+            {loading && schedules.length === 0 ? (
               <tr><td colSpan="8" className="p-10 text-center text-gray-400">Carregando horários...</td></tr>
             ) : (
               schedules.map(s => (
@@ -147,22 +156,19 @@ export const SchedulesView = () => {
                   <td className="p-4">{s.professorNome || '-'}</td>
                   <td className="p-4">{s.disciplinaNome || '-'}</td>
                   <td className="p-4">{s.turmaNome || '-'}</td>
-                  <td className="p-4">{s.diaSemana}</td>
+                  {/* Busca o nome amigável para exibir na tabela também */}
+                  <td className="p-4">
+                    {diasDisplay[diasChave.indexOf(s.diaSemana)] || s.diaSemana}
+                  </td>
                   <td className="p-4">{s.horaInicio}</td>
                   <td className="p-4">{s.horaFim}</td>
                   <td className="p-4">{s.sala}</td>
                   <td className="p-4 flex gap-2">
-                    <button
-                      onClick={() => handleEdit(s)}
-                      className="flex items-center gap-2 px-2 py-1 text-yellow-500 hover:text-white hover:bg-yellow-500/20 rounded-lg"
-                    >
-                      <Edit2 className="w-4 h-4" /> Editar
+                    <button onClick={() => handleEdit(s)} className="text-yellow-500 hover:bg-yellow-50 p-1 rounded">
+                      <Edit2 className="w-4 h-4" />
                     </button>
-                    <button
-                      onClick={() => handleDelete(s.id)}
-                      className="flex items-center gap-2 px-2 py-1 text-red-500 hover:text-white hover:bg-red-500/20 rounded-lg"
-                    >
-                      <Trash2 className="w-4 h-4" /> Excluir
+                    <button onClick={() => handleDelete(s.id)} className="text-red-500 hover:bg-red-50 p-1 rounded">
+                      <Trash2 className="w-4 h-4" />
                     </button>
                   </td>
                 </tr>

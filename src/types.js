@@ -10,8 +10,6 @@ export const PAGES = {
   TEACHERS_MGMT: '/teachers-management',
   REPORTS: '/school-reports',
   TEACHER_ANALYTICS: '/teacher-analytics',
-
-  // rotas do gestor
   CLASSES: '/classes',
   SUBJECTS: '/subjects',
   ALLOCATIONS: '/allocations',

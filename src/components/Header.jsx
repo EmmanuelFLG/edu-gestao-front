@@ -13,7 +13,7 @@ export const Header = ({ title, subtitle, icon: Icon, action }) => {
         )}
       </div>
       
-      {/* Aqui entra qualquer botão ou tag que você queira colocar à direita */}
+      {/* qualquer botão ou tag apra colocar à direita */}
       {action && (
         <div className="flex items-center gap-3">
           {action}

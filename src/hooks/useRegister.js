@@ -37,12 +37,5 @@ export const useRegister = () => {
     }
   };
 
-  return {
-    name, setName,
-    email, setEmail,
-    password, setPassword,
-    loading,
-    error,
-    handleRegister
-  };
+  return {name, setName, email, setEmail, password, setPassword, loading, error, handleRegister};
 };

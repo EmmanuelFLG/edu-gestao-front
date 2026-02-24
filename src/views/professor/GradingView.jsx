@@ -13,6 +13,7 @@ export const GradingView = () => {
     return (
       <div className="space-y-8">
         <Header title="Lançamento de Notas" subtitle="Selecione uma turma para gerenciar o desempenho." />
+        
         {turmasPorTurno.map((grupo) => (
           grupo.salas.length > 0 && (
             <div key={grupo.turno} className="space-y-4">

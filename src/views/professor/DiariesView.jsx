@@ -20,6 +20,7 @@ export const DiariesView = () => {
     return (
       <div className="space-y-8">
         <Header title="Frequência Diária" subtitle="Selecione a turma para realizar a chamada." />
+        
         {turmasPorTurno.map((grupo) => (
           <div key={grupo.turno} className="space-y-4">
             {grupo.salas.length > 0 && (
@@ -33,18 +34,18 @@ export const DiariesView = () => {
                     <button
                       key={sala.id}
                       onClick={() => setSelectedClass(sala.id)}
-                      className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm hover:border-emerald-500 transition-all text-left group flex items-center justify-between"
+                      className="bg-white p-5 rounded-xl border border-gray-100 shadow-sm hover:border-indigo-500 hover:shadow-md transition-all text-left group flex items-center justify-between"
                     >
                       <div className="flex items-center gap-4">
-                        <div className="p-3 bg-gray-50 text-gray-400 rounded-lg group-hover:bg-emerald-50">
+                        <div className="p-3 bg-gray-50 text-gray-400 rounded-lg group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">
                           <BookOpen className="w-5 h-5" />
                         </div>
                         <div>
                           <h4 className="font-bold text-gray-800">{sala.nome}</h4>
-                          <p className="text-[10px] text-gray-400 uppercase">Abrir Diário</p>
+                          <p className="text-[10px] text-gray-400 uppercase font-semibold">Abrir Diário</p>
                         </div>
                       </div>
-                      <ChevronRight className="text-gray-200 group-hover:text-emerald-500 w-5 h-5" />
+                      <ChevronRight className="text-gray-200 group-hover:text-indigo-500 w-5 h-5 transition-transform group-hover:translate-x-1" />
                     </button>
                   ))}
                 </div>
@@ -65,7 +66,7 @@ export const DiariesView = () => {
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <button onClick={() => setSelectedClass(null)} className="text-xs text-emerald-600 hover:underline mb-2 block font-bold uppercase">
+          <button onClick={() => setSelectedClass(null)} className="text-xs text-indigo-600 hover:text-indigo-800 mb-2 block font-bold uppercase tracking-tight">
             ← Voltar para turnos
           </button>
           <h2 className="text-2xl font-bold text-gray-800">Chamada: Turma {selectedClass}</h2>
@@ -75,7 +76,7 @@ export const DiariesView = () => {
           </div>
         </div>
         <button
-          className="flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-lg font-bold shadow-lg shadow-emerald-100 hover:bg-emerald-700 transition-all disabled:opacity-50"
+          className="flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-lg font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all disabled:opacity-50 active:scale-95"
           onClick={saveAttendance}
           disabled={loading}
         >
@@ -92,7 +93,7 @@ export const DiariesView = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-50">
-            {loading ? (
+            {loading && students.length === 0 ? (
               <tr><td colSpan="2" className="p-10 text-center text-gray-400">Carregando alunos...</td></tr>
             ) : (
               students.map((student) => {
@@ -109,17 +110,17 @@ export const DiariesView = () => {
                           type="number"
                           min="0"
                           value={faltas}
-                          onFocus={(e) => e.target.select()} // Seleciona tudo ao clicar
+                          onFocus={(e) => e.target.select()}
                           onChange={(e) => handleAttendanceChange(student.id, e.target.value)}
                           className={`w-16 h-9 rounded-lg text-center font-bold border outline-none transition-all 
                             [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none
                             ${faltas > 0
                               ? 'border-red-500 bg-red-50 text-red-600 shadow-sm shadow-red-100'
-                              : 'border-gray-200 text-emerald-600 focus:border-emerald-500'
+                              : 'border-gray-200 text-indigo-600 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100'
                             }`}
                         />
                         <span className={`text-[8px] font-bold uppercase tracking-tighter whitespace-nowrap
-                          ${faltas > 0 ? 'text-red-500' : 'text-emerald-500'}`}>
+                          ${faltas > 0 ? 'text-red-500' : 'text-indigo-500'}`}>
                           {faltas > 0 ? `${faltas} Aulas Perdidas` : 'Presente'}
                         </span>
                       </div>
