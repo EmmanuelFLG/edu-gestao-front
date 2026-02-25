@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  frontend:
+    build: .
+    container_name: frontend
+    ports:
+      - "9091:80"
+    networks:
+      - edu-network
+
+networks:
+  edu-network:
+    external: true
